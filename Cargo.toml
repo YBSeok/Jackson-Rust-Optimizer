@@ -1,0 +1,30 @@
+[package]
+name = "decimal-rs-core"
+version = "0.1.0"
+edition = "2021"
+description = "Zero-allocation BigDecimal parser for JVM interop — JNI & Panama FFM"
+license = "Apache-2.0"
+repository = "https://github.com/yourname/decimal-rs"
+ 
+[lib]
+# cdylib  : JNI / Panama FFM 용 공유 라이브러리 (.so / .dll / .dylib)
+# rlib    : Rust 내부 테스트·벤치용
+crate-type = ["cdylib", "rlib"]
+ 
+[dependencies]
+# JNI 바인딩 
+jni = { version = "0.21", features = ["invocation"] }
+ 
+[dev-dependencies]
+# 마이크로 벤치마크 (cargo bench)
+criterion = { version = "0.5", features = ["html_reports"] }
+ 
+[[bench]]
+name = "decimal_bench"
+harness = false
+ 
+[profile.release]
+opt-level = 3
+lto = true          
+codegen-units = 1   
+panic = "abort"    
